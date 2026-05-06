@@ -64,6 +64,33 @@ proxy clone of the implementation, deployed by `AppTokenFactory.createAppToken`.
 
 Total deploy gas: 0.0071 ETH at 0.47 gwei.
 
+## FeeSwapRouter — deployed 6 May 2026
+
+Atomic fee-on-input swap wrapper. Allowlisted swap targets only, leftover
+refund invariant, fee-on-transfer-aware. UUPS proxy.
+
+| Contract | Address | Etherscan |
+|---|---|---|
+| FeeSwapRouter (proxy) | `0x09d4fDb7176ef0E20Af558e650d2dcd8D1f73d62` | [view](https://etherscan.io/address/0x09d4fdb7176ef0e20af558e650d2dcd8d1f73d62) |
+| FeeSwapRouter (impl) | `0x2E8f5eaE247435DDb513e408636A5fCF8Fd2699F` | [view](https://etherscan.io/address/0x2e8f5eae247435ddb513e408636a5fcf8fd2699f) |
+
+Initial config:
+
+| Setting | Value |
+|---|---|
+| `feeBps` | `10` (0.10%) |
+| `MAX_FEE_BPS` | `100` (1.00% absolute cap) |
+| `feeRecipient` | `0xa12eCf0CDfC9D53FFafbdef43696cE615E662B33` (B33, temporary; rotation to Safe pending) |
+| All four roles (admin, config, pauser, upgrader) | B33 (temporary; rotation to Safe pending) |
+| Approved target: Uniswap V2 router | `0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D` |
+| AppTokenFactory wired | `0xa248f486fD838B315883026197cda96387f9E7Dc` (any clone it produces is auto-approved as a swap target) |
+| Paused | false |
+
+The dapp's `CONFIG.PROTOCOL_FEE_BPS` is currently set to `0`, so users are
+not charged protocol fees yet. The fee will flip on after adapters route
+through this router and an end-to-end fork dry-run lands. Until then the UI
+shows "planned 0.10%, paused".
+
 ## Marketplace admin posture
 
 Until `FinalizeMarketplace.s.sol` runs against Safe addresses, B33
