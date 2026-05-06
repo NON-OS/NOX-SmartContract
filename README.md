@@ -21,8 +21,8 @@ script runs against a Safe address.
 
 | Contract | Address | Status |
 |---|---|---|
-| NOX (ERC-20) | `0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA` | live |
-| NOX Staking | `0xa94d6009790Ba13597A1E1b7cF4e1531eA513613` | live |
+| NOX V2 (ERC-20) | `0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA` | live |
+| NOX Staking V3 | `0xa94d6009790Ba13597A1E1b7cF4e1531eA513613` | live |
 | ZeroState Pass NFT | `0x7b575DD8e8b111c52Ab1e872924d4Efd4DF403df` | live |
 | NOX Bridge | `0x70Fb00075879E7D9d87EA5536c6c374cc2d14435` | live |
 | CapsuleRegistry (proxy) | `0xcabb848fac25af95068d64eb5501e689c88172a3` | live, single-key admin |
@@ -39,13 +39,14 @@ Full deploy artifacts and tx hashes are in [`deployments/`](deployments/).
 
 ### `contracts/token/`
 
-`NOXToken.sol` — the ERC-20 in circulation. Deflationary on transfer with
-configurable buy / sell / transfer fee splits and burn share. The fee config
-is locked once the deployer renounces ownership.
+`NOXTokenV2.sol` — the live ERC-20 (`NONOS_NOX_MAINNET_V2`). Deflationary on
+transfer with configurable buy / sell / transfer fee splits and burn share.
+The fee config is locked once the deployer renounces ownership.
 
-`NOXStaking.sol` — staking for NOX. Lock periods with boost multipliers, NFT
-holder bonus through ZeroState Pass, reward pool funded by deposits. Lives
-behind a UUPS proxy.
+`NOXStakingV3.sol` — the live staking contract (`NOXStakingV3`). Lock
+periods with boost multipliers, NFT holder bonus through ZeroState Pass,
+reward pool funded by deposits. Lives behind a UUPS proxy. V3 supersedes V1
+and V2 (deprecated, not in this repo).
 
 ### `contracts/nft/`
 

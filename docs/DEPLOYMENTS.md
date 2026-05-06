@@ -6,9 +6,9 @@ Every NOX contract live on Ethereum mainnet. Chain id `0x1`.
 
 | Contract | Address | Etherscan |
 |---|---|---|
-| NOX (ERC-20) | `0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA` | [view](https://etherscan.io/token/0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA) |
+| NOX V2 (ERC-20) | `0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA` | [view](https://etherscan.io/token/0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA) |
 | ZeroState Pass NFT | `0x7b575DD8e8b111c52Ab1e872924d4Efd4DF403df` | [view](https://etherscan.io/address/0x7b575DD8e8b111c52Ab1e872924d4Efd4DF403df) |
-| NOX Staking | `0xa94d6009790Ba13597A1E1b7cF4e1531eA513613` | [view](https://etherscan.io/address/0xa94d6009790Ba13597A1E1b7cF4e1531eA513613) |
+| NOX Staking V3 | `0xa94d6009790Ba13597A1E1b7cF4e1531eA513613` | [view](https://etherscan.io/address/0xa94d6009790Ba13597A1E1b7cF4e1531eA513613) |
 | NOX Rewards | `0xa76cd221a30a100213f51b315cacd69daeab72be` | [view](https://etherscan.io/address/0xa76cd221a30a100213f51b315cacd69daeab72be) |
 
 ## Bridge
