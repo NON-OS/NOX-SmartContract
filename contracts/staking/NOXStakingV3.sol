@@ -38,7 +38,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
     uint256 public constant LOCK_BOOST_180 = 18000;
     uint256 public constant LOCK_BOOST_365 = 25000;
 
-    // ============ V2 STORAGE - DO NOT MODIFY ORDER ============
     IERC20 public noxToken;
     IERC721 public zeroStatePass;
 
@@ -64,7 +63,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
     }
     mapping(address => UserLockV2) internal _v2Locks;
 
-    // ============ V3 STORAGE - APPEND ONLY ============
     uint256 public earlyUnlockPenaltyBps;
     uint256 public totalPenaltiesBurned;
 
@@ -91,7 +89,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
     uint256 private constant _NOT_ENTERED = 1;
     uint256 private constant _ENTERED = 2;
 
-    // ============ EVENTS ============
     event Staked(address indexed user, uint256 amount, uint256 weightedAmount);
     event StakedLocked(address indexed user, uint256 amount, uint256 weightedAmount, uint256 lockPeriod, uint256 lockEndTime);
     event PositionCreated(address indexed user, uint256 indexed positionId, uint256 amount, uint256 lockPeriod);
@@ -105,7 +102,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
     event GenesisTimeSet(uint256 timestamp);
     event EmergencyWithdraw(address indexed token, address indexed to, uint256 amount);
 
-    // ============ ERRORS ============
     error ZeroAmount();
     error ZeroAddress();
     error InvalidLockPeriod();
@@ -123,7 +119,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
     error StakeLocked();
     error CannotReduceLock();
 
-    // ============ MODIFIERS ============
     modifier nonReentrant() {
         if (_reentrancyStatus == _ENTERED) revert ReentrancyGuard();
         _reentrancyStatus = _ENTERED;
@@ -136,7 +131,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
         _;
     }
 
-    // ============ CONSTRUCTOR ============
     constructor() {
         _disableInitializers();
     }
@@ -167,7 +161,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
         return "3.0.0";
     }
 
-    // ============ VIEW FUNCTIONS ============
     function getBoostMultiplier(uint256 nftCount) public pure returns (uint256) {
         if (nftCount == 0) return BOOST_0_NFT;
         if (nftCount == 1) return BOOST_1_NFT;
@@ -375,7 +368,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
         }
     }
 
-    // ============ INTERNAL FUNCTIONS ============
     function _updateGlobalRewards() internal {
         if (block.timestamp <= lastRewardTime) return;
         if (totalWeightedStake > 0) {
@@ -468,7 +460,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
         emit V2Migrated(user, v2.amount, 0);
     }
 
-    // ============ STAKING FUNCTIONS ============
     function stake(uint256 amount) external nonReentrant whenNotPaused whenGenesisSet {
         _migrateV2(msg.sender);
         _createPosition(msg.sender, amount, 0);
@@ -699,7 +690,6 @@ contract NOXStakingV3 is Initializable, AccessControlUpgradeable, PausableUpgrad
         emit StakedLocked(msg.sender, pos.amount, newWeighted, pos.lockPeriod, pos.lockEndTime);
     }
 
-    // ============ ADMIN FUNCTIONS ============
     function setEarlyUnlockPenalty(uint256 newPenaltyBps) external onlyRole(ADMIN_ROLE) {
         if (newPenaltyBps > 5000) revert InvalidPenaltyBps();
         uint256 oldBps = earlyUnlockPenaltyBps;

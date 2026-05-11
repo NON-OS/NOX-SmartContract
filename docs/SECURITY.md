@@ -4,8 +4,10 @@
 
 The Solidity surface in this repo:
 
-- `contracts/token/NOXToken.sol`
-- `contracts/token/NOXStaking.sol`
+- `contracts/token/NOXTokenV2_1.sol`
+- `contracts/staking/NOXStakingV4.sol`
+- `contracts/registry/NOXNamespaceRegistry.sol`
+- `contracts/registry/NOXAccessRegistry.sol`
 - `contracts/bridge/NOXBridge.sol`
 - `contracts/marketplace/core/CapsuleRegistry.sol`
 - `contracts/marketplace/core/AppTokenFactory.sol`

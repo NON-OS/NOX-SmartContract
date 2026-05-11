@@ -9,9 +9,6 @@ import {FeeRouter}           from "../contracts/marketplace/revenue/FeeRouter.so
 import {EntitlementRegistry} from "../contracts/marketplace/entitlement/EntitlementRegistry.sol";
 import {ReceiptSettlement}   from "../contracts/marketplace/entitlement/ReceiptSettlement.sol";
 
-/// @notice Rotates every privileged role on every v2 contract from B33 to the configured
-///         FINAL_* addresses. Verifies grants before revoking. Refuses on mainnet if any
-///         FINAL_* equals deployer (unless ALLOW_TESTNET_DEPLOYER_RETAIN=true).
 contract Finalize is Script {
     struct Targets {
         address admin;

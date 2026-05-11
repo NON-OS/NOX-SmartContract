@@ -93,7 +93,7 @@ contract MockPartialPull {
     address public token;
     uint256 public takeBps;
     constructor(address t, uint256 bps) { token = t; takeBps = bps; }
-    function partialPull(address from, uint256 declared, address /*to*/) external {
+    function partialPull(address from, uint256 declared, address ) external {
         uint256 take = (declared * takeBps) / 10000;
         MockERC20(token).transferFrom(from, address(this), take);
     }

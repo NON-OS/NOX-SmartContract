@@ -1,14 +1,23 @@
 .env
 .env.*
+!.env.example
+!.env.multisig.example
+
 *.pem
 *.key
 *.keystore
+*.wallet
+*.dwallet
+private-keys.txt
+generated-wallets.json
+
 secrets/
 .secrets/
 
 node_modules/
 lib/
 out/
+out-*/
 cache/
 artifacts/
 broadcast/
@@ -18,12 +27,22 @@ coverage/
 .coverage.*
 gas-report.txt
 
+audit/
+nox-staking-kit/
+noxtoken/
+nonos-website/
+
 .vscode/
 .idea/
 *.swp
 *.swo
+*.bak
+*~
 
 .DS_Store
 .AppleDouble
 .LSOverride
 Thumbs.db
+
+tmp/
+.tmp/

@@ -15,6 +15,41 @@ remappings = [
     "@openzeppelin/=node_modules/@openzeppelin/"
 ]
 
+[profile.upgrade]
+src = "contracts"
+test = "test"
+script = "script"
+out = "out-upgrade"
+libs = ["node_modules", "lib"]
+solc = "0.8.24"
+optimizer = true
+optimizer_runs = 1
+evm_version = "paris"
+bytecode_hash = "ipfs"
+fs_permissions = [{ access = "read", path = "./" }]
+remappings = [
+    "forge-std/=lib/forge-std/src/",
+    "@openzeppelin/=node_modules/@openzeppelin/"
+]
+
+[profile.deploy]
+src = "contracts/token"
+test = "test"
+script = "script"
+out = "out-deploy"
+libs = ["node_modules", "lib"]
+solc = "0.8.24"
+optimizer = true
+optimizer_runs = 1
+via_ir = true
+evm_version = "paris"
+bytecode_hash = "none"
+fs_permissions = [{ access = "read", path = "./" }]
+remappings = [
+    "forge-std/=lib/forge-std/src/",
+    "@openzeppelin/=node_modules/@openzeppelin/"
+]
+
 [rpc_endpoints]
 mainnet = "${MAINNET_RPC_URL}"
 sepolia = "${SEPOLIA_RPC_URL}"

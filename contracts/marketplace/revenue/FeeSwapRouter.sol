@@ -36,7 +36,6 @@ contract FeeSwapRouter is
     mapping(address => bool) public approvedTarget;
     address public appTokenFactory;
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() { _disableInitializers(); }
 
     function initialize(

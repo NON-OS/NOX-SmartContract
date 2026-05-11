@@ -11,9 +11,6 @@ import {FeeRouter}            from "../contracts/marketplace/revenue/FeeRouter.s
 import {EntitlementRegistry}  from "../contracts/marketplace/entitlement/EntitlementRegistry.sol";
 import {ReceiptSettlement}    from "../contracts/marketplace/entitlement/ReceiptSettlement.sol";
 
-/// @notice Deploys the full v2 stack from B33.
-/// @dev B33 is initial admin on every privileged role. Run Finalize.s.sol immediately after
-///      to rotate roles to a Safe / timelock and revoke B33.
 contract Deploy is Script {
     struct Deployment {
         address deployer;

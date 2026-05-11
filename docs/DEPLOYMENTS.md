@@ -2,14 +2,50 @@
 
 Every NOX contract live on Ethereum mainnet. Chain id `0x1`.
 
-## Token + NFT + Staking
+## Token + NFT + Staking + Registries
+
+### Proxies (call these)
 
 | Contract | Address | Etherscan |
 |---|---|---|
-| NOX V2 (ERC-20) | `0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA` | [view](https://etherscan.io/token/0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA) |
+| NOX token (ERC-20) | `0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA` | [view](https://etherscan.io/token/0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA) |
+| NOX Staking | `0xa94d6009790Ba13597A1E1b7cF4e1531eA513613` | [view](https://etherscan.io/address/0xa94d6009790Ba13597A1E1b7cF4e1531eA513613) |
+| NOXNamespaceRegistry | `0xD554ae30A0D20CB988c40d6C3b3d907740B9FD5C` | [view](https://etherscan.io/address/0xD554ae30A0D20CB988c40d6C3b3d907740B9FD5C) |
+| NOXAccessRegistry | `0x31140F839E2BB03C903ca894A87DF40c7333d38b` | [view](https://etherscan.io/address/0x31140F839E2BB03C903ca894A87DF40c7333d38b) |
 | ZeroState Pass NFT | `0x7b575DD8e8b111c52Ab1e872924d4Efd4DF403df` | [view](https://etherscan.io/address/0x7b575DD8e8b111c52Ab1e872924d4Efd4DF403df) |
-| NOX Staking V3 | `0xa94d6009790Ba13597A1E1b7cF4e1531eA513613` | [view](https://etherscan.io/address/0xa94d6009790Ba13597A1E1b7cF4e1531eA513613) |
-| NOX Rewards | `0xa76cd221a30a100213f51b315cacd69daeab72be` | [view](https://etherscan.io/address/0xa76cd221a30a100213f51b315cacd69daeab72be) |
+| NOX Rewards (legacy) | `0xa76cd221a30a100213f51b315cacd69daeab72be` | [view](https://etherscan.io/address/0xa76cd221a30a100213f51b315cacd69daeab72be) |
+
+### Implementations behind the proxies
+
+| Proxy | Current implementation | Etherscan |
+|---|---|---|
+| NOX token | `0xBf0415ebFC762B4166e198736a15Ff0B53744e43` (V2.1) | [view](https://etherscan.io/address/0xBf0415ebFC762B4166e198736a15Ff0B53744e43) |
+| NOX Staking | `0x415790B1f0aecd18B24D53BEaa25597573375B63` (V4) | [view](https://etherscan.io/address/0x415790B1f0aecd18B24D53BEaa25597573375B63) |
+| NOX Staking (prior V3, rollback target) | `0xcD499Fa840F3475fdc8a9B150405b9811AE54410` | [view](https://etherscan.io/address/0xcD499Fa840F3475fdc8a9B150405b9811AE54410) |
+
+### Governance
+
+| Role | Address |
+|---|---|
+| Safe (3-of-5) — governor, admin, upgrader on NOX token + staking proxies | `0x3a52ea60F61036Afbbec25F46a64485Ac4477Ccc` |
+| Safe singleton | `0x41675c099f32341bf84bfc5382af534df5c7461a` (canonical Safe v1.4.1) |
+
+The deployer EOA has been fully renounced from every privileged role on the
+token and staking proxies.
+
+### V4 staking upgrade transaction
+
+| Field | Value |
+|---|---|
+| V4 implementation deploy tx | `0xe845463f3d5b4c516b93eeabdf7173182fd25512a3a6528d16b8a032dd54a649` |
+| V4 implementation deploy block | `25,070,868` |
+| Safe upgrade tx (`upgradeToAndCall(V4, reinitV4(500, 0))`) | `0x5ed9b880ef2a3246c39dfaff3342936006e4a17d19441c9c06c8fcbc3b625e52` |
+| Safe upgrade block | `25,070,942` |
+| Pre-upgrade block (used by fork tests) | `25,070,941` |
+| NOXNamespaceRegistry deploy tx | `0x0b0ce44ab6b176423dca25599a718963c554a874bb608f9cfeb22790cd8b2ea7` |
+| NOXNamespaceRegistry deploy block | `25,071,065` |
+| NOXAccessRegistry deploy tx | `0xdefd3beac1d7516d02163425e741a60ceaa862dcd0e0671336b4ab086a902cc9` |
+| NOXAccessRegistry deploy block | `25,071,067` |
 
 ## Bridge
 
@@ -18,7 +54,7 @@ Every NOX contract live on Ethereum mainnet. Chain id `0x1`.
 | NOX Bridge (proxy) | `0x70Fb00075879E7D9d87EA5536c6c374cc2d14435` | [view](https://etherscan.io/address/0x70Fb00075879E7D9d87EA5536c6c374cc2d14435) |
 | Cellframe burn wallet | `Rj7J7MiX2bWy8sNyX1MFFTseBrFByqaSxHmLXZu8twkVxoWH1Urh8k88SNWBiiZoztfMbgHcfyzn2Jyc2zTHnF2RocZq6K841Y24yNEG` | (off-chain, Cellframe Backbone) |
 
-## Marketplace v2 — deployed 5 May 2026, block 25,031,029
+## Marketplace base suite — deployed 5 May 2026, block 25,031,029
 
 Compiler 0.8.24, optimizer 200 runs, evm version `paris`, no via-ir.
 
@@ -115,3 +151,37 @@ finalize time take over.
 | `treasurySink` | DAO_WALLET |
 
 `launchFeeWei = 0`. Receipt settlement `epochDuration = 86400` (one day).
+
+## App-token V2 upgrade — deployed 7 May 2026
+
+In-place UUPS upgrade of the existing AppTokenFactory proxy at `0xa248f486fD838B315883026197cda96387f9E7Dc` to a V2 implementation that clones a new `AppBondingTokenV2` and exposes `createAppTokenV2(LaunchParamsV2)` behind a `LAUNCH_ENABLED` flag (default `false`). The V1 launch surface (`createAppToken(LaunchParams)`) is hard-disabled at the contract layer — calls now revert `LaunchDisabled()`.
+
+| Contract | Address | Etherscan |
+|---|---|---|
+| AppBondingTokenV2 (impl) | `0x16caCbC81249c0A7d2d0271e77f0D05489AB35Dc` | [view](https://etherscan.io/address/0x16cacbc81249c0a7d2d0271e77f0d05489ab35dc) |
+| AppTokenFactoryV2 (impl) | `0x58A167A94365B6294900A1e2A4229807DCbcdC09` | [view](https://etherscan.io/address/0x58a167a94365b6294900a1e2a4229807dcbcdc09) |
+| AppTokenFactory (proxy, upgraded) | `0xa248f486fD838B315883026197cda96387f9E7Dc` | [view](https://etherscan.io/address/0xa248f486fd838b315883026197cda96387f9e7dc) |
+
+Live config on the factory proxy after `initializeV2`:
+
+| Setting | Value |
+|---|---|
+| `bondingTokenImplV2()` | `0x16caCbC81249c0A7d2d0271e77f0D05489AB35Dc` |
+| `weth()` | `0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2` |
+| `uniV2Factory()` | `0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f` |
+| `uniV2Router()` | `0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D` |
+| `lpBurnTo()` | `0x000000000000000000000000000000000000dEaD` |
+| `launchEnabled()` | **`false`** (gate stays closed until final dry-run + Safe rotation) |
+
+Source-verified on Etherscan: both impls (compiler 0.8.24, optimizer 200, evm `paris`).
+
+V2 invariants on the bonding token (encoded in the contract):
+
+- APP / ETH graduation pair only.
+- LP burned to `0x000000000000000000000000000000000000dEaD`.
+- 1% maximum graduation fee (`MAX_GRADUATION_FEE_BPS = 100`).
+- `lpReserveCap` validated at init against the curve's terminal price; misconfigured launches revert at clone-init.
+- Pair safety: refuses pre-existing pairs that have non-zero reserves OR non-zero `balanceOf(pair)` for either side (Uniswap V2 first-mint donation-attack guard).
+- Post-`addLiquidityETH` exact-amount assertion + zero-stuck-tokens / zero-stuck-eth assertions.
+- Bonding `buy`/`sell` revert post-graduation (CEI; `graduated` set before any external call).
+- `GraduatedToUniswap(pair, lpBurnTo, ethToLp, tokensToLp, lpMinted, fee, terminalPriceWeiPerToken)` event published on every graduation.
